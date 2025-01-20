@@ -7,7 +7,40 @@ from tensorflow.keras.optimizers import Adam
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 import matplotlib.pyplot as plt
 
-base_path = 'tmp'
+def create_experiment_directory(base_dir="experiments"):
+    """
+    Creates a new experiment directory in the specified base directory.
+    The new directory will have the name 'experimentXX', where XX is the next available number.
+
+    Parameters:
+    - base_dir (str): The base directory where experiments are stored.
+
+    Returns:
+    - str: The path of the newly created experiment directory.
+    """
+    # Ensure the base directory exists
+    os.makedirs(base_dir, exist_ok=True)
+
+    # Get a list of all existing experiment directories
+    existing_experiments = [
+        d for d in os.listdir(base_dir) if os.path.isdir(os.path.join(base_dir, d)) and d.startswith("experiment")
+    ]
+
+    # Extract the numbers from existing experiment directories
+    experiment_numbers = [
+        int(d.replace("experiment", "").zfill(4)) for d in existing_experiments if d.replace("experiment", "").isdigit()
+    ]
+
+    # Determine the next experiment number
+    next_experiment_number = max(experiment_numbers, default=0) + 1
+    next_experiment_name = f"experiment{str(next_experiment_number).zfill(4)}"
+
+    # Create the new experiment directory
+    new_experiment_dir = os.path.join(base_dir, next_experiment_name)
+    os.makedirs(new_experiment_dir, exist_ok=True)
+
+    print(f"New experiment directory created: {new_experiment_dir}")
+    return new_experiment_dir
 
 def create_nn_model(input_dim, hidden_layers=[64, 32], activation='relu', optimizer='adam', loss='mse', metrics=['mae']):
     """
@@ -130,6 +163,8 @@ def create_directory_structure(base_path):
     os.makedirs(os.path.join(base_path, "learningBase"), exist_ok=True)
     os.makedirs(os.path.join(base_path, "knowledgeBase"), exist_ok=True)
     os.makedirs(os.path.join(base_path, "activationBase"), exist_ok=True)
+    os.makedirs(os.path.join('temp', "knowledgeBase"), exist_ok=True)
+
 
 # main method and script
 if __name__ == '__main__':
@@ -166,14 +201,17 @@ if __name__ == '__main__':
 
     # saving training and testing data
     print("Saving training and testing information: ")
+    # create the base path 
+    base_path = create_experiment_directory('experiments')
     create_directory_structure(base_path)
 
     # Save visualizations and metrics
-    plot_training_curves(history, f"{base_path}/learningBase/training_validation_loss.png")
-    plot_residuals(y_test, y_pred_nn, f"{base_path}/learningBase/residual_plot.png")
-    plot_predicted_vs_actual(y_test, y_pred_nn, f"{base_path}/learningBase/predicted_vs_actual.png")
-    save_metrics(history, y_test, y_pred_nn, f"{base_path}/learningBase/training_metrics.txt")
+    plot_training_curves(history, f"{base_path}/training_validation_loss.png")
+    plot_residuals(y_test, y_pred_nn, f"{base_path}/residual_plot.png")
+    plot_predicted_vs_actual(y_test, y_pred_nn, f"{base_path}/predicted_vs_actual.png")
+    save_metrics(history, y_test, y_pred_nn, f"{base_path}/training_metrics.txt")
 
     # Save the model
-    nn_model.save(f"{base_path}/knowledgeBase/currentAiSolution.keras")
+    nn_model.save(f"{base_path}/currentAiSolution.keras")
+    nn_model.save(f"temp/knowledgeBase/currentAiSolution.keras")
 
