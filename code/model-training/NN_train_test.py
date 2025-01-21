@@ -163,22 +163,25 @@ def create_directory_structure(base_path):
     os.makedirs(os.path.join(base_path, "learningBase"), exist_ok=True)
     os.makedirs(os.path.join(base_path, "knowledgeBase"), exist_ok=True)
     os.makedirs(os.path.join(base_path, "activationBase"), exist_ok=True)
-    os.makedirs(os.path.join('temp', "knowledgeBase"), exist_ok=True)
+    os.makedirs(os.path.join('tmp', "knowledgeBase"), exist_ok=True)
 
 
 # main method and script
 if __name__ == '__main__':
     # read the processed cleaned data
-    train_data = pd.read_csv('data/processed/train.csv')
-    test_data  = pd.read_csv('data/processed/test.csv')
+    train_path = 'tmp/learningBase/train/training_data.csv'
+    test_path = 'tmp/learningBase/validation/test_data.csv'
+
+    train_data = pd.read_csv(train_path)
+    test_data  = pd.read_csv(test_path)
+
     X_train, X_test, y_train, y_test = train_data.iloc[:, :-1],test_data.iloc[:, :-1], train_data['P'], test_data['P']
     # Assuming the input dimension is 4 (GP, F, A, GD) in this data set
     input_dim = 4
-    print(X_train)
     # Create the model with customizable parameters
     nn_model = create_nn_model(
         input_dim=input_dim,
-        hidden_layers=[128, 64, 32],  # Customize hidden layers
+        hidden_layers=[64, 32],  # Customize hidden layers
         activation='relu',           # Activation function
         optimizer=Adam(learning_rate=0.001),  # Custom optimizer
         loss='mse',                  # Loss function
@@ -190,8 +193,8 @@ if __name__ == '__main__':
     # train the model using the processed data
 
     nn_model.compile(optimizer='adam', loss='mse', metrics=['mae'])
-    history = nn_model.fit(X_train, y_train, epochs=100, verbose=1, validation_split=0.1)
-    print('Model trained successfully with epochs: {100}')
+    history = nn_model.fit(X_train, y_train, epochs=50, verbose=1, validation_split=0.1)
+    print('Model trained successfully with epochs: {50}')
     # Predict and evaluate NN
     y_pred_nn = nn_model.predict(X_test).flatten()
     print("\n ------ Neural Network Performance: --------")

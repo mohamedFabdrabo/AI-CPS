@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 import time
-
+import os
 Leagues_IDs = ['eng.1', 'esp.1', 'ger.1', 'ita.1', 'fra.1','sco.1','por.1','ksa.1','tur.1','gre.1','aut.1','jpn.1','bra.1'
                , 'eng.2', 'eng.3', 'esp.2', 'esp.3', 'fra.2', 'fra.3', 'ger.2', 'ger.3', 'ita.2', 'ita.3']
 # Base URL template
@@ -61,6 +61,8 @@ def scrape_league_table(league_id, year):
 start_season = 2004
 end_season = 2024
 all_data = []
+save_path = 'tmp/learningBase/joint_data_collection.csv'
+os.makedirs(os.path.join('tmp', "learningBase"), exist_ok=True)
 
 for league_id in Leagues_IDs:
     for year in range(start_season, end_season + 1):
@@ -78,7 +80,7 @@ for league_id in Leagues_IDs:
 # TODO: edit to save in the required file system
 if all_data:
     final_df = pd.concat(all_data, ignore_index=True)
-    final_df.to_csv("league_tables.csv", index=False)
-    print("Data saved to 'league_tables.csv'.")
+    final_df.to_csv(save_path, index=False)
+    print(f"Scraped {final_df.shape[0]} data enteries:\n saved to :: {save_path}")
 else:
     print("No data was scraped.")
