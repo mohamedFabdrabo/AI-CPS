@@ -1,0 +1,6 @@
+FROM busybox
+
+
+ADD ./LICENSE  /knowledgeBase/LICENSE
+ADD ./CITATION.cff  /knowledgeBase/CITATION.cff
+ADD ./../../data/model-file/currentAiSolution.keras /knowledgeBase/currentAiSolution.keras

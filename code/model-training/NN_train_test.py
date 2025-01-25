@@ -181,9 +181,9 @@ if __name__ == '__main__':
     # Create the model with customizable parameters
     nn_model = create_nn_model(
         input_dim=input_dim,
-        hidden_layers=[64, 32],  # Customize hidden layers
+        hidden_layers=[128],  # Customize hidden layers
         activation='relu',           # Activation function
-        optimizer=Adam(learning_rate=0.001),  # Custom optimizer
+        optimizer=Adam(learning_rate=0.0001),  # Custom optimizer
         loss='mse',                  # Loss function
         metrics=['mae']              # Metrics for evaluation
     )
@@ -193,7 +193,7 @@ if __name__ == '__main__':
     # train the model using the processed data
 
     nn_model.compile(optimizer='adam', loss='mse', metrics=['mae'])
-    history = nn_model.fit(X_train, y_train, epochs=50, verbose=1, validation_split=0.1)
+    history = nn_model.fit(X_train, y_train, epochs=50, verbose=1, validation_split=0.05)
     print('Model trained successfully with epochs: {50}')
     # Predict and evaluate NN
     y_pred_nn = nn_model.predict(X_test).flatten()
@@ -216,5 +216,5 @@ if __name__ == '__main__':
 
     # Save the model
     nn_model.save(f"{base_path}/currentAiSolution.keras")
-    nn_model.save(f"temp/knowledgeBase/currentAiSolution.keras")
+    nn_model.save(f"data/model-file/currentAiSolution.keras")
 

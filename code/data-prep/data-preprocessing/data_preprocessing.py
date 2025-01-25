@@ -63,10 +63,10 @@ def create_directory_structure(base_path = 'tmp'):
 if __name__ == '__main__':
     # create the requrired file system:
     create_directory_structure('tmp')
-    raw_data_path = 'tmp/learningBase/joint_data_collection.csv'
-    train_path = 'tmp/learningBase/train/training_data.csv'
-    test_path  = 'tmp/learningBase/validation/test_data.csv'
-    activation_path = 'tmp/activationBase/activation_data.csv'
+    raw_data_path = 'data/raw/joint_data_collection.csv' #'tmp/learningBase/joint_data_collection.csv'
+    train_path = 'data/processed/training_data.csv' #'tmp/learningBase/train/training_data.csv'
+    test_path  = 'data/processed/test_data.csv' #'tmp/learningBase/validation/test_data.csv'
+    activation_path = 'data/processed/activation_data.csv' #'tmp/activationBase/activation_data.csv'
 
     # read the raw data
     rawdata = pd.read_csv(raw_data_path)
@@ -83,7 +83,8 @@ if __name__ == '__main__':
         # remove the result from the activation data (last row)
         #activation_data = activation_data.iloc[:, :-1]
         activation_data.to_csv(activation_path, index=False)
-
+        print(f"Training Size: {train_set.shape}")
+        print(f"Testing Size: {test_set.shape}")
         print("DONE: ALL Data saved")
     except Exception as e:
         print(f"Error saving the train and testing set : {e}")

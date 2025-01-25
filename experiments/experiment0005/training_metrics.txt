@@ -1,0 +1,7 @@
+Training Metrics:
+Final Training Loss: 21.1929
+Final Validation Loss: 19.4274
+
+Test Metrics:
+Mean Absolute Error: 3.2439
+Mean Squared Error: 16.9933

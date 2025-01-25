@@ -1,0 +1,4 @@
+FROM busybox
+
+COPY ./../../data/processed/training_data.csv /learningBase/train/training_data.csv
+COPY ./../../data/processed/test_data.csv /learningBase/validation/test_data.csv

@@ -1,0 +1,3 @@
+FROM busybox
+
+COPY ./../../data/processed/activation_data.csv /activationBase/activation_data.csv
