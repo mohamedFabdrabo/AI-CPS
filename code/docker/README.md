@@ -1,5 +1,6 @@
-### this directory contains the data produced by this project
+### this directory contains the 4 containers created in this project:
 
-1- `model-file` : contains the saved model files produced by training.
-2- `processed` : contains the splitted processed data into clean format ready for training or testing.
-3- `raw`       : contains the raw data produced by scraping the internet.
+1- learningbase_points_prediction
+2- activationbase_points_prediction
+3- knowledgebase_points_prediction
+4- codebase_points_prediction

@@ -85,10 +85,11 @@ def plot_training_curves(history, output_path):
     
     plt.figure(figsize=(10, 6))
     plt.plot(history.history['loss'], label='Training Loss')
-    plt.plot(history.history['val_loss'], label='Validation Loss')
+    #plt.plot(history.history['val_loss'], label='Validation Loss')
     plt.xlabel('Epochs')
     plt.ylabel('Loss')
     plt.title('Training and Validation Loss')
+    plt.title('Training Loss')
     plt.legend()
     plt.grid(True)
     plt.savefig(output_path)
@@ -151,20 +152,10 @@ def save_metrics(history, y_test, y_pred, output_path):
     with open(output_path, "w") as f:
         f.write("Training Metrics:\n")
         f.write(f"Final Training Loss: {history.history['loss'][-1]:.4f}\n")
-        f.write(f"Final Validation Loss: {history.history['val_loss'][-1]:.4f}\n\n")
+        #f.write(f"Final Validation Loss: {history.history['val_loss'][-1]:.4f}\n\n")
         f.write("Test Metrics:\n")
         f.write(f"Mean Absolute Error: {mae:.4f}\n")
         f.write(f"Mean Squared Error: {mse:.4f}\n")
-
-def create_directory_structure(base_path):
-    """
-    Ensure that the necessary directories exist in the file system.
-    """
-    os.makedirs(os.path.join(base_path, "learningBase"), exist_ok=True)
-    os.makedirs(os.path.join(base_path, "knowledgeBase"), exist_ok=True)
-    os.makedirs(os.path.join(base_path, "activationBase"), exist_ok=True)
-    os.makedirs(os.path.join('tmp', "knowledgeBase"), exist_ok=True)
-
 
 # main method and script
 if __name__ == '__main__':
@@ -181,8 +172,8 @@ if __name__ == '__main__':
     # Create the model with customizable parameters
     nn_model = create_nn_model(
         input_dim=input_dim,
-        hidden_layers=[128],  # Customize hidden layers
-        activation='relu',           # Activation function
+        hidden_layers=[1024],  # Customize hidden layers
+        activation='softplus',           # Activation function
         optimizer=Adam(learning_rate=0.0001),  # Custom optimizer
         loss='mse',                  # Loss function
         metrics=['mae']              # Metrics for evaluation
@@ -193,8 +184,8 @@ if __name__ == '__main__':
     # train the model using the processed data
 
     nn_model.compile(optimizer='adam', loss='mse', metrics=['mae'])
-    history = nn_model.fit(X_train, y_train, epochs=50, verbose=1, validation_split=0.05)
-    print('Model trained successfully with epochs: {50}')
+    history = nn_model.fit(X_train, y_train, epochs=100,batch_size=64, verbose=1)
+    print('Model trained successfully with epochs: {100}')
     # Predict and evaluate NN
     y_pred_nn = nn_model.predict(X_test).flatten()
     print("\n ------ Neural Network Performance: --------")
@@ -206,7 +197,6 @@ if __name__ == '__main__':
     print("Saving training and testing information: ")
     # create the base path 
     base_path = create_experiment_directory('experiments')
-    create_directory_structure(base_path)
 
     # Save visualizations and metrics
     plot_training_curves(history, f"{base_path}/training_validation_loss.png")

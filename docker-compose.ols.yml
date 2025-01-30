@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  python_script_runner:
+    image: python:3.9
+    container_name: ols_activation
+    working_dir: /app
+    volumes:
+      - .:/app
+    depends_on:
+      - "learningbase_points_prediction"
+      - "activationbase_points_prediction"
+      - "knowledgebase_points_prediction"
+    command: >
+      sh -c "pip install -r requirements.txt && python code/model-activation/ols_activation.py"

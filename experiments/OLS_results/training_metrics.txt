@@ -1,0 +1,34 @@
+Training Metrics:
+OLS Model:                             OLS Regression Results                            
+==============================================================================
+Dep. Variable:                      P   R-squared:                       0.902
+Model:                            OLS   Adj. R-squared:                  0.902
+Method:                 Least Squares   F-statistic:                 1.229e+04
+Date:                Thu, 30 Jan 2025   Prob (F-statistic):               0.00
+Time:                        00:14:51   Log-Likelihood:                -11462.
+No. Observations:                4002   AIC:                         2.293e+04
+Df Residuals:                    3998   BIC:                         2.296e+04
+Df Model:                           3                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+const          2.3066      0.828      2.786      0.005       0.683       3.930
+GP             1.2358      0.023     52.676      0.000       1.190       1.282
+F              0.2511      0.005     50.626      0.000       0.241       0.261
+A             -0.1993      0.005    -39.101      0.000      -0.209      -0.189
+GD             0.4504      0.002    182.127      0.000       0.446       0.455
+==============================================================================
+Omnibus:                       71.773   Durbin-Watson:                   2.002
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):              145.060
+Skew:                          -0.017   Prob(JB):                     3.17e-32
+Kurtosis:                       3.932   Cond. No.                     8.73e+15
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[2] The smallest eigenvalue is 3.14e-25. This might indicate that there are
+strong multicollinearity problems or that the design matrix is singular.
+Test Metrics:
+Mean Absolute Error: 3.2095
+Mean Squared Error: 16.7220

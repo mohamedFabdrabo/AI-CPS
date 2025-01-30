@@ -3,4 +3,5 @@ FROM busybox
 
 ADD ./LICENSE  /knowledgeBase/LICENSE
 ADD ./CITATION.cff  /knowledgeBase/CITATION.cff
+ADD ./../../data/model-file/ols_model.pkl /knowledgeBase/ols_model.pkl
 ADD ./../../data/model-file/currentAiSolution.keras /knowledgeBase/currentAiSolution.keras
