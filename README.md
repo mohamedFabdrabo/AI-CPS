@@ -15,26 +15,20 @@ The directory also contains `model-files` which are the Final saved model
 This directory contains the results of each experiment conducted in this project while training the NN model. Each experiment contains a different visualization of predictions vs actual data and the performance measures on the training and testing data.
 
 
-### To run the NN model Activation directly with Docker-compose:
+### To run the NN model Activation with Docker-compose:
 Run 
 ```
-docker-compose -f docker-compose.yml -f docker-compose.nn.yml up
+docker-compose -f docker-compose.nn.yml up
 ```
 This will run the docker pipeline, docker will fetch the three main images pushed on docker hub. Install the requirements and make predictions using the NN model in the `tmp/knowledgeBase` folder and the activation data inside `tmp/activationBase` 
 
-### To run the OLS model Activation directly with Docker-compose:
+### To run the OLS model Activation with Docker-compose:
 Run 
 ```
-docker-compose -f docker-compose.yml -f docker-compose.ols.yml up
+docker-compose -f docker-compose.ols.yml up
 ```
 This will activate the docker ols pipeline and do the same as the NN pipeline except running using ols saved model.
 
-### To run the activation script without docker:
-1. you must have `docker` installed and running.\
-2. also, `python` and `pip` already installed.\
-3. install the dependencies in `requirements.txt` using ```pip install -r requirements.txt```
-4. run `docker-compose up` to run the docker pipeline. This will create a new directory called `tmp` which contains the data required to make predictions.
-6. run ```python code/model-activation/NN_activation.py```. This will make a prediction based on the activation data provided in `tmp`.
 
 ## important commands for the project:
 ### project initialization:
@@ -67,5 +61,7 @@ This will activate the docker ols pipeline and do the same as the NN pipeline ex
 - Build the container: 
 `docker build --tag <DOCKER_USERNAME>/codebase_points_prediction:latest -f code/docker/codeBase_Dockerfile .`
 - Test the container : `docker run -it --rm <DOCKER_USERNAME>/codebase_points_prediction:latest sh`
+- Push on Dockerhub  : `docker image push <DOCKER_USERNAME>/codebase_points_prediction:latest`
+
 
 

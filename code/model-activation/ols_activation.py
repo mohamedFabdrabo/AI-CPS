@@ -44,6 +44,6 @@ if __name__ == "__main__":
             raise ValueError("Activation data must contain exactly 4 features without the Predicted.")
         
         # Display the results
-        print(f"Neural Network Prediction result: {int(result[0])} , The actual Value: {answer}")
+        print(f"OLS model Prediction result: {int(result[0])} , The actual Value: {answer}")
     except Exception as e:
         print(f"Error: {e}")

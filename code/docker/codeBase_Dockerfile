@@ -1,8 +1,9 @@
-FROM tensorflow/tensorflow
-RUN apt-get update && apt-get install -y python3 python3-pip
+FROM busybox
 
-ADD ./../../requirements.txt requirements.txt
 
-RUN pip3 install --no-cache-dir -r requirements.txt
-
-ADD ./../../code/model-activation/NN_activation.py /codeBase/
+ADD ./LICENSE  /knowledgeBase/LICENSE
+ADD ./CITATION.cff  /knowledgeBase/CITATION.cff
+ADD ./../../ols_requirements.txt /codeBase/ols_requirements.txt
+ADD ./../../nn_requirements.txt /codeBase/nn_requirements.txt
+ADD ./../../code/model-activation/NN_activation.py /codeBase/NN_activation.py
+ADD ./../../code/model-activation/ols_activation.py /codeBase/ols_activation.py

@@ -1,15 +1,76 @@
 version: "3.8"
 
 services:
-  python_script_runner:
-    image: python:3.9
-    container_name: ols_activation
-    working_dir: /app
+  learningbase_points_prediction:
+    image: mohamedfathi19/learningbase_points_prediction
     volumes:
-      - .:/app
+      - ai_system:/tmp
+      - ./tmp:/tmp      
+
+    command:
+      - sh
+      - "-c"
+      - |
+        rm -rf /tmp/learningBase/ && mkdir -p /tmp/learningBase/ && cp -r /learningBase/* /tmp/learningBase/;
+
+
+  activationbase_points_prediction:
+    image: mohamedfathi19/activationbase_points_prediction
+    volumes:
+      - ai_system:/tmp
+      - ./tmp:/tmp      
+
+    depends_on:
+      - "learningbase_points_prediction"
+    command:
+      - sh
+      - "-c"
+      - |
+        rm -rf /tmp/activationBase/ && mkdir -p /tmp/activationBase/ && cp -r /activationBase/* /tmp/activationBase/;
+
+
+  knowledgebase_points_prediction:
+    image: mohamedfathi19/knowledgebase_points_prediction
+    volumes:
+      - ai_system:/tmp
+      - ./tmp:/tmp      
+    depends_on:
+      - "learningbase_points_prediction"
+      - "activationbase_points_prediction"
+    command:
+    - sh
+    - "-c"
+    - |
+      rm -rf /tmp/knowledgeBase/ && mkdir -p /tmp/knowledgeBase/ && cp -r /knowledgeBase/* /tmp/knowledgeBase/;
+  
+  codebase_points_prediction:
+    image: mohamedfathi19/codebase_points_prediction
+    volumes:
+      - ai_system:/tmp
+      - ./tmp:/tmp      
     depends_on:
       - "learningbase_points_prediction"
       - "activationbase_points_prediction"
       - "knowledgebase_points_prediction"
+    command:
+    - sh
+    - "-c"
+    - |
+      rm -rf /tmp/codeBase/ && mkdir -p /tmp/codeBase/ && cp -r /codeBase/* /tmp/codeBase/;
+
+  python_script_runner:
+    image: python:3.9
+    container_name: ols_activation
+    volumes:
+      - ai_system:/tmp
+      - ./tmp:/tmp  
+    depends_on:
+      - "learningbase_points_prediction"
+      - "activationbase_points_prediction"
+      - "knowledgebase_points_prediction"
+      - "codebase_points_prediction"
     command: >
-      sh -c "pip install -r requirements.txt && python code/model-activation/ols_activation.py"
+      sh -c "pip install -r tmp/codeBase/ols_requirements.txt && python tmp/codeBase/ols_activation.py"
+volumes:
+  ai_system:
+    external: true
